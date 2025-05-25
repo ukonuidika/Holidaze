@@ -377,8 +377,47 @@ const ProfilePage: React.FC = () => {
           <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-600"></div>
         )}
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
-          <div className="flex items-end">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 sm:p-6">
+          {/* Mobile Layout */}
+          <div className="sm:hidden">
+            <div className="flex items-center justify-between mb-3">
+              <div className="relative -mt-12">
+                <div className="w-20 h-20 rounded-full border-4 border-white overflow-hidden bg-gray-200">
+                  {profile.avatar?.url ? (
+                    <img
+                      src={profile.avatar.url}
+                      alt={profile.avatar.alt ?? "Profile avatar"}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl text-gray-500">
+                      {profile.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowProfileModal(true)}
+                className="bg-white text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-100 transition text-sm font-medium"
+              >
+                Edit
+              </button>
+            </div>
+
+            <div>
+              <h1 className="text-2xl font-bold text-white">{profile.name}</h1>
+              <p className="text-white opacity-90 text-sm">{profile.email}</p>
+              {profile.venueManager && (
+                <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-1">
+                  Venue Manager
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden sm:flex items-end">
             <div className="relative -mt-16 mr-6">
               <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-200">
                 {profile.avatar?.url ? (
@@ -395,7 +434,7 @@ const ProfilePage: React.FC = () => {
               </div>
             </div>
 
-            <div>
+            <div className="flex-1">
               <h1 className="text-3xl font-bold text-white">{profile.name}</h1>
               <p className="text-white opacity-90">{profile.email}</p>
               {profile.venueManager && (
@@ -407,7 +446,7 @@ const ProfilePage: React.FC = () => {
 
             <button
               onClick={() => setShowProfileModal(true)}
-              className="ml-auto bg-white text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+              className="bg-white text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
             >
               Edit Profile
             </button>
@@ -1057,167 +1096,98 @@ const ProfilePage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <p className="block text-sm font-semibold text-gray-700">
-                    Amenities
-                  </p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id="wifi"
-                        checked={venueForm.meta.wifi}
-                        onChange={(e) =>
-                          setVenueForm({
-                            ...venueForm,
-                            meta: { ...venueForm.meta, wifi: e.target.checked },
-                          })
-                        }
-                        className="peer sr-only"
-                      />
-                      <label
-                        htmlFor="wifi"
-                        className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 peer-checked:bg-blue-50 peer-checked:border-blue-300 transition-all duration-200"
-                      >
-                        <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 flex items-center justify-center">
-                          {venueForm.meta.wifi && (
-                            <svg
-                              className="w-3 h-3 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          WiFi
-                        </span>
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id="parking"
-                        checked={venueForm.meta.parking}
-                        onChange={(e) =>
-                          setVenueForm({
-                            ...venueForm,
-                            meta: {
-                              ...venueForm.meta,
-                              parking: e.target.checked,
-                            },
-                          })
-                        }
-                        className="peer sr-only"
-                      />
-                      <label
-                        htmlFor="parking"
-                        className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 peer-checked:bg-blue-50 peer-checked:border-blue-300 transition-all duration-200"
-                      >
-                        <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 flex items-center justify-center">
-                          {venueForm.meta.parking && (
-                            <svg
-                              className="w-3 h-3 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          Parking
-                        </span>
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id="breakfast"
-                        checked={venueForm.meta.breakfast}
-                        onChange={(e) =>
-                          setVenueForm({
-                            ...venueForm,
-                            meta: {
-                              ...venueForm.meta,
-                              breakfast: e.target.checked,
-                            },
-                          })
-                        }
-                        className="peer sr-only"
-                      />
-                      <label
-                        htmlFor="breakfast"
-                        className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 peer-checked:bg-blue-50 peer-checked:border-blue-300 transition-all duration-200"
-                      >
-                        <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 flex items-center justify-center">
-                          {venueForm.meta.breakfast && (
-                            <svg
-                              className="w-3 h-3 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          Breakfast
-                        </span>
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="checkbox"
-                        id="pets"
-                        checked={venueForm.meta.pets}
-                        onChange={(e) =>
-                          setVenueForm({
-                            ...venueForm,
-                            meta: { ...venueForm.meta, pets: e.target.checked },
-                          })
-                        }
-                        className="peer sr-only"
-                      />
-                      <label
-                        htmlFor="pets"
-                        className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 peer-checked:bg-blue-50 peer-checked:border-blue-300 transition-all duration-200"
-                      >
-                        <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-checked:border-blue-500 flex items-center justify-center">
-                          {venueForm.meta.pets && (
-                            <svg
-                              className="w-3 h-3 text-white"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          Pets
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
+               <div className="space-y-4">
+  <p className="block text-sm font-semibold text-gray-700">Amenities</p>
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {/* WiFi Checkbox */}
+    <div className="flex items-center">
+      <input
+        type="checkbox"
+        id="wifi-checkbox"
+        checked={venueForm.meta.wifi}
+        onChange={(e) =>
+          setVenueForm({
+            ...venueForm,
+            meta: { ...venueForm.meta, wifi: e.target.checked },
+          })
+        }
+        className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+      />
+      <label
+        htmlFor="wifi-checkbox"
+        className="ml-2 block text-sm text-gray-700"
+      >
+        WiFi
+      </label>
+    </div>
+
+    {/* Parking Checkbox */}
+    <div className="flex items-center">
+      <input
+        type="checkbox"
+        id="parking-checkbox"
+        checked={venueForm.meta.parking}
+        onChange={(e) =>
+          setVenueForm({
+            ...venueForm,
+            meta: { ...venueForm.meta, parking: e.target.checked },
+          })
+        }
+        className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+      />
+      <label
+        htmlFor="parking-checkbox"
+        className="ml-2 block text-sm text-gray-700"
+      >
+        Parking
+      </label>
+    </div>
+
+    {/* Breakfast Checkbox */}
+    <div className="flex items-center">
+      <input
+        type="checkbox"
+        id="breakfast-checkbox"
+        checked={venueForm.meta.breakfast}
+        onChange={(e) =>
+          setVenueForm({
+            ...venueForm,
+            meta: { ...venueForm.meta, breakfast: e.target.checked },
+          })
+        }
+        className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+      />
+      <label
+        htmlFor="breakfast-checkbox"
+        className="ml-2 block text-sm text-gray-700"
+      >
+        Breakfast
+      </label>
+    </div>
+
+    {/* Pets Checkbox */}
+    <div className="flex items-center">
+      <input
+        type="checkbox"
+        id="pets-checkbox"
+        checked={venueForm.meta.pets}
+        onChange={(e) =>
+          setVenueForm({
+            ...venueForm,
+            meta: { ...venueForm.meta, pets: e.target.checked },
+          })
+        }
+        className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+      />
+      <label
+        htmlFor="pets-checkbox"
+        className="ml-2 block text-sm text-gray-700"
+      >
+        Pets
+      </label>
+    </div>
+  </div>
+</div>
 
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-gray-900">

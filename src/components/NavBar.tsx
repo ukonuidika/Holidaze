@@ -36,13 +36,22 @@ export const Header = ({
           <h1 className="ml-2 text-xl font-semibold text-gray-900">Holidaze</h1>
         </Link>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           {isAuthenticated && user ? (
             <>
-              {/* Create Venue Button - Only show if user is a venue manager */}
+              {/* Create Venue Button - Responsive design */}
               {user.venueManager && (
                 <Link to="/venues/create">
-                  <button className="bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-md flex items-center space-x-2 transition-colors">
+                  {/* Mobile: Icon only */}
+                  <button
+                    className="sm:hidden bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-md transition-colors"
+                    title="Create Venue"
+                  >
+                    <Plus className="h-5 w-5" />
+                  </button>
+
+                  {/* Desktop: Icon + Text */}
+                  <button className="hidden sm:flex bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-md items-center space-x-2 transition-colors">
                     <Plus className="h-4 w-4" />
                     <span>Create Venue</span>
                   </button>
@@ -53,7 +62,7 @@ export const Header = ({
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 rounded-md p-2"
+                  className="flex items-center space-x-1 sm:space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 rounded-md p-2"
                 >
                   {user.avatar?.url ? (
                     <img
@@ -73,7 +82,10 @@ export const Header = ({
                       user.avatar?.url ? "hidden" : ""
                     }`}
                   />
-                  <span className="font-medium">{user.name}</span>
+                  {/* Hide username on very small screens, show on sm+ */}
+                  <span className="hidden sm:block font-medium">
+                    {user.name}
+                  </span>
                   <ChevronDown className="h-4 w-4" />
                 </button>
 
