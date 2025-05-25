@@ -19,13 +19,11 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Modal states
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showVenueModal, setShowVenueModal] = useState(false);
   const [currentEditItem, setCurrentEditItem] = useState<any>(null);
 
-  // Form states
   const [profileForm, setProfileForm] = useState({
     bio: "",
     avatar: { url: "" },
@@ -42,7 +40,7 @@ const ProfilePage: React.FC = () => {
   const [venueForm, setVenueForm] = useState({
     name: "",
     description: "",
-    media: [] as Array<{ url: string; alt?: string }>, // Add this line
+    media: [] as Array<{ url: string; alt?: string }>, 
     price: 0,
     maxGuests: 0,
     meta: {
@@ -96,7 +94,6 @@ const ProfilePage: React.FC = () => {
 
       const updatedProfile = await updateProfile(user.name, profileForm);
 
-      // Preserve the existing bookings and venues when updating the profile
       setProfile((prevProfile: any) => ({
         ...updatedProfile.data,
         bookings: prevProfile?.bookings ?? [],
@@ -104,7 +101,6 @@ const ProfilePage: React.FC = () => {
         _count: prevProfile?._count ?? { bookings: 0, venues: 0 },
       }));
 
-      // Update the AuthContext if any profile data changed
       setUser((prevUser) => {
         if (!prevUser) return null;
 
@@ -116,7 +112,6 @@ const ProfilePage: React.FC = () => {
           venueManager: profileForm.venueManager,
         };
 
-        // Update stored user data
         const storage = localStorage.getItem("userData")
           ? localStorage
           : sessionStorage;
@@ -139,8 +134,7 @@ const ProfilePage: React.FC = () => {
     e.preventDefault();
     try {
       if (!currentEditItem?.id) return;
-
-      // 1. Validate the form data first
+      
       if (!bookingForm.dateFrom || !bookingForm.dateTo || !bookingForm.guests) {
         throw new Error("Please fill in all required fields");
       }
@@ -148,7 +142,6 @@ const ProfilePage: React.FC = () => {
       const dateFrom = new Date(bookingForm.dateFrom);
       const dateTo = new Date(bookingForm.dateTo);
 
-      // 2. Check date validity
       if (dateFrom >= dateTo) {
         throw new Error("Check-out date must be after check-in date");
       }
@@ -157,7 +150,6 @@ const ProfilePage: React.FC = () => {
         throw new Error("Booking dates must be in the future");
       }
 
-      // 3. Check guests against venue capacity
       if (
         currentEditItem.venue &&
         bookingForm.guests > currentEditItem.venue.maxGuests
@@ -167,30 +159,27 @@ const ProfilePage: React.FC = () => {
         );
       }
 
-      // 4. Format dates for API (ISO string without time if your API expects just dates)
       const formattedData = {
-        dateFrom: dateFrom.toISOString().split("T")[0], // Just the date part
-        dateTo: dateTo.toISOString().split("T")[0], // Just the date part
-        guests: Number(bookingForm.guests), // Ensure it's a number
+        dateFrom: dateFrom.toISOString().split("T")[0],
+        dateTo: dateTo.toISOString().split("T")[0],
+        guests: Number(bookingForm.guests),
       };
 
-      console.log("Submitting booking update:", formattedData); // Debug log
+      console.log("Submitting booking update:", formattedData);
 
-      // 5. Call API
       const updatedBooking = await updateBooking(
         currentEditItem.id,
         formattedData
       );
 
-      // 6. Update state while preserving venue data
       setProfile((prev: any) => ({
         ...prev,
         bookings: prev.bookings.map((booking: any) =>
           booking.id === currentEditItem.id
             ? {
                 ...updatedBooking.data,
-                venue: booking.venue, // Preserve original venue data
-                dateFrom: formattedData.dateFrom, // Ensure formatted dates are used
+                venue: booking.venue,
+                dateFrom: formattedData.dateFrom,
                 dateTo: formattedData.dateTo,
                 guests: formattedData.guests,
               }
@@ -198,10 +187,9 @@ const ProfilePage: React.FC = () => {
         ),
       }));
 
-      // 7. Close modal and optionally show success message
       setShowBookingModal(false);
-      setError(null); // Clear any previous errors
-      // You could add a success state here if you want to show a confirmation
+      setError(null);
+
     } catch (err) {
       console.error("Booking update error:", err);
       setError(
@@ -212,13 +200,11 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  // In your handleBookingDelete and handleVenueDelete functions, update to also decrement counts:
 
   const handleBookingDelete = async (id: string) => {
     try {
       await deleteBooking(id);
 
-      // Update the bookings list and counts
       setProfile((prev: any) => ({
         ...prev,
         bookings: prev.bookings.filter((booking: any) => booking.id !== id),
@@ -240,13 +226,11 @@ const ProfilePage: React.FC = () => {
         return;
       }
 
-      // Basic validation
       if (!venueForm.name || !venueForm.description) {
         window.alert("Error: Name and description are required fields");
         return;
       }
 
-      // Filter out empty media URLs
       const cleanMedia = venueForm.media.filter((m) => m.url.trim() !== "");
 
       const updatedVenue = await updateVenue(currentEditItem.id, {
@@ -254,7 +238,6 @@ const ProfilePage: React.FC = () => {
         media: cleanMedia,
       });
 
-      // Update UI state
       setProfile((prev: any) => ({
         ...prev,
         venues: prev.venues.map((venue: any) =>
@@ -282,7 +265,6 @@ const ProfilePage: React.FC = () => {
 
       await deleteVenue(id);
 
-      // Update UI state
       setProfile((prev: any) => ({
         ...prev,
         venues: prev.venues.filter((venue: any) => venue.id !== id),
@@ -317,7 +299,7 @@ const ProfilePage: React.FC = () => {
     setVenueForm({
       name: venue.name,
       description: venue.description,
-      media: venue.media ?? [], // Preserve existing media
+      media: venue.media ?? [],
       price: venue.price,
       maxGuests: venue.maxGuests,
       meta: {
@@ -356,7 +338,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Error message */}
+
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
@@ -365,7 +347,6 @@ const ProfilePage: React.FC = () => {
 
       <BackButton onClick={handleBackClick} />
 
-      {/* Profile Banner */}
       <div className="relative rounded-lg overflow-hidden mb-8 h-64">
         {profile.banner?.url ? (
           <img
@@ -378,7 +359,6 @@ const ProfilePage: React.FC = () => {
         )}
 
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 sm:p-6">
-          {/* Mobile Layout */}
           <div className="sm:hidden">
             <div className="flex items-center justify-between mb-3">
               <div className="relative -mt-12">
@@ -416,7 +396,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Layout */}
           <div className="hidden sm:flex items-end">
             <div className="relative -mt-16 mr-6">
               <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-200">
@@ -453,14 +432,12 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Bio Section */}
+      
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 className="text-xl font-semibold mb-4">About Me</h2>
         <p className="text-gray-700">{profile.bio ?? "No bio provided"}</p>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6 text-center">
           <h3 className="text-lg font-medium text-gray-500">Bookings</h3>
@@ -475,8 +452,7 @@ const ProfilePage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Bookings Section */}
+      
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">My Bookings</h2>
@@ -534,7 +510,6 @@ const ProfilePage: React.FC = () => {
         )}
       </div>
 
-      {/* Venues Section (only for venue managers) */}
       {profile.venueManager && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
@@ -601,7 +576,6 @@ const ProfilePage: React.FC = () => {
         </div>
       )}
 
-      {/* Edit Profile Modal */}
       {showProfileModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-white/20">
@@ -754,7 +728,6 @@ const ProfilePage: React.FC = () => {
         </div>
       )}
 
-      {/* Edit Booking Modal */}
       {showBookingModal && currentEditItem && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-white/20">
@@ -886,7 +859,6 @@ const ProfilePage: React.FC = () => {
         </div>
       )}
 
-      {/* Edit Venue Modal */}
       {showVenueModal && currentEditItem && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white/95 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -1099,7 +1071,6 @@ const ProfilePage: React.FC = () => {
                <div className="space-y-4">
   <p className="block text-sm font-semibold text-gray-700">Amenities</p>
   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {/* WiFi Checkbox */}
     <div className="flex items-center">
       <input
         type="checkbox"
@@ -1121,7 +1092,6 @@ const ProfilePage: React.FC = () => {
       </label>
     </div>
 
-    {/* Parking Checkbox */}
     <div className="flex items-center">
       <input
         type="checkbox"
@@ -1143,7 +1113,6 @@ const ProfilePage: React.FC = () => {
       </label>
     </div>
 
-    {/* Breakfast Checkbox */}
     <div className="flex items-center">
       <input
         type="checkbox"
@@ -1164,8 +1133,7 @@ const ProfilePage: React.FC = () => {
         Breakfast
       </label>
     </div>
-
-    {/* Pets Checkbox */}
+    
     <div className="flex items-center">
       <input
         type="checkbox"

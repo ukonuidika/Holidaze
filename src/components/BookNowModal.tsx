@@ -36,14 +36,12 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
     setLoading(true);
     setError(null);
 
-    // Validate dates
     if (new Date(bookingData.dateFrom) >= new Date(bookingData.dateTo)) {
       setError("Check-out date must be after check-in date");
       setLoading(false);
       return;
     }
 
-    // Validate guests
     if (bookingData.guests < 1 || bookingData.guests > venue.maxGuests) {
       setError(`Number of guests must be between 1 and ${venue.maxGuests}`);
       setLoading(false);
@@ -73,15 +71,14 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop with blur effect */}
+      
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal Container */}
       <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden border border-white/20">
-        {/* Hero Image Section */}
+
         {venue.media && venue.media.length > 0 && (
           <div className="relative h-48 overflow-hidden">
             <img
@@ -91,7 +88,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 
-            {/* Close Button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 group"
@@ -99,7 +95,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
               <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" />
             </button>
 
-            {/* Venue Info Overlay */}
             <div className="absolute bottom-4 left-6 text-white">
               <h2 className="text-2xl font-bold mb-1 truncate">{venue.name}</h2>
               <div className="flex items-center gap-3 text-sm opacity-90">
@@ -122,7 +117,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
           </div>
         )}
 
-        {/* Header for venues without images */}
         {(!venue.media || venue.media.length === 0) && (
           <div className="p-6 border-b border-gray-100">
             <div className="flex justify-between items-center">
@@ -139,7 +133,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
           </div>
         )}
 
-        {/* Form Section */}
         <div className="p-8">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-sm animate-pulse">
@@ -148,7 +141,7 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Date Inputs */}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="group">
                 <label className="text-gray-700 font-medium mb-3 flex items-center gap-2">
@@ -190,7 +183,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
               </div>
             </div>
 
-            {/* Guests Input */}
             <div>
               <label className="text-gray-700 font-medium mb-3 flex items-center gap-2">
                 <Users className="w-5 h-5 text-emerald-600" />
@@ -213,7 +205,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
               </div>
             </div>
 
-            {/* Price Summary */}
             {calculateNights() > 0 && venue.price && (
               <div className="bg-gradient-to-r from-emerald-50 to-blue-50 p-6 rounded-2xl border border-emerald-100">
                 <div className="flex justify-between items-center">
@@ -235,7 +226,6 @@ export const BookNowModal: React.FC<BookNowModalProps> = ({
               </div>
             )}
 
-            {/* Action Buttons */}
             <div className="flex gap-4 pt-4">
               <button
                 type="button"

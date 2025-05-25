@@ -1,4 +1,3 @@
-// components/VenueBookingSection.tsx
 import React, { useState } from "react";
 import { Users, Calendar } from "lucide-react";
 import type { Venue } from "../types";
@@ -57,7 +56,7 @@ export const VenueBookingSection = ({
         </div>
       </div>
 
-      {/* Booking Modal */}
+      
       {showBookingModal && (
         <BookNowModal
           venue={venue}

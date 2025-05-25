@@ -1,6 +1,5 @@
 import { Search, X } from "lucide-react";
 
-// Enhanced Search Bar Component
 interface SearchBarProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
@@ -58,7 +57,6 @@ export const SearchBar = ({
   );
 };
 
-// Results Header Component
 interface ResultsHeaderProps {
   resultsCount: number;
   currentPage: number;
@@ -117,7 +115,6 @@ export const ResultsHeader = ({
   );
 };
 
-// Enhanced Empty State Component
 interface EmptyStateProps {
   hasActiveSearch: boolean;
   searchTerm: string;

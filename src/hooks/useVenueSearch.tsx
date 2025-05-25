@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import type { Venue } from "../types";
 
-// Enhanced API service for search
 const searchVenues = async (query: string): Promise<{ data: Venue[] }> => {
   const response = await fetch(
     `https://v2.api.noroff.dev/holidaze/venues/search?q=${encodeURIComponent(
@@ -14,7 +13,6 @@ const searchVenues = async (query: string): Promise<{ data: Venue[] }> => {
   return response.json();
 };
 
-// Debounce hook for search optimization
 const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -31,7 +29,6 @@ const useDebounce = (value: string, delay: number) => {
   return debouncedValue;
 };
 
-// Modern search hook with API integration
 export const useVenueSearch = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [searchResults, setSearchResults] = useState<Venue[]>([]);
@@ -44,13 +41,11 @@ export const useVenueSearch = () => {
   const debouncedSearchTerm = useDebounce(searchTerm.trim(), 300);
   const venuesPerPage = 12;
 
-  // Memoized filtered venues based on price
   const priceFilteredVenues = useMemo(() => {
     const venues = debouncedSearchTerm ? searchResults : allVenues;
     return venues.filter((venue) => venue.price <= filterPrice);
   }, [searchResults, allVenues, filterPrice, debouncedSearchTerm]);
 
-  // Pagination calculations
   const totalPages = Math.max(
     1,
     Math.ceil(priceFilteredVenues.length / venuesPerPage)
@@ -62,7 +57,6 @@ export const useVenueSearch = () => {
   );
   const currentVenues = priceFilteredVenues.slice(startIndex, endIndex);
 
-  // Search function with API call
   const performSearch = useCallback(async (query: string) => {
     if (!query) {
       setSearchResults([]);
@@ -85,7 +79,6 @@ export const useVenueSearch = () => {
     }
   }, []);
 
-  // Effect to trigger search when debounced term changes
   useEffect(() => {
     if (debouncedSearchTerm) {
       performSearch(debouncedSearchTerm);
@@ -95,12 +88,10 @@ export const useVenueSearch = () => {
     }
   }, [debouncedSearchTerm, performSearch]);
 
-  // Reset to first page when search or filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [debouncedSearchTerm, filterPrice]);
 
-  // Page navigation
   const goToPage = useCallback(
     (pageNumber: number) => {
       const validPageNumber = Math.max(1, Math.min(pageNumber, totalPages));
@@ -111,8 +102,7 @@ export const useVenueSearch = () => {
     },
     [currentPage, totalPages]
   );
-
-  // Clear search
+  
   const clearSearch = useCallback(() => {
     setSearchTerm("");
     setSearchResults([]);

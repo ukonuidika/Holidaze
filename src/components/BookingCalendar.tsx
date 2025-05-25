@@ -154,10 +154,10 @@ export const BookingCalendar = ({
           <div className="grid grid-cols-7 gap-1">
             {days.map((day, index) => (
               <div
-                key={day ? day.toISOString() : `empty-${index}`} // Fixed: Using unique identifier
+                key={day ? day.toISOString() : `empty-${index}`}
                 className={`h-10 flex items-center justify-center text-sm rounded ${getDayClassName(
                   day
-                )}`} // Fixed: Extracted nested ternary
+                )}`}
               >
                 {day ? day.getDate() : ""}
               </div>

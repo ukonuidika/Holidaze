@@ -1,4 +1,3 @@
-// components/VenueAmenities.tsx
 import React from "react";
 import { Wifi, ParkingSquare as Parking, Coffee, Cat } from "lucide-react";
 import type { Venue } from "../types";
@@ -10,14 +9,13 @@ interface VenueAmenitiesProps {
 export const VenueAmenities = ({
   meta,
 }: VenueAmenitiesProps): React.ReactElement => {
-  // Specific methods for different amenity types
+
   const getWifiStatus = () => (meta.wifi ? "Available" : "Not Available");
   const getParkingStatus = () => (meta.parking ? "Available" : "Not Available");
   const getBreakfastStatus = () =>
     meta.breakfast ? "Included" : "Not Included";
   const getPetsStatus = () => (meta.pets ? "Allowed" : "Not Allowed");
 
-  // Specific styling methods
   const getWifiClass = () => (meta.wifi ? "text-gray-700" : "text-gray-400");
   const getParkingClass = () =>
     meta.parking ? "text-gray-700" : "text-gray-400";

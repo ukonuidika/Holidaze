@@ -10,7 +10,6 @@ export interface LoginUserData {
   password: string;
 }
 
-// TypeScript interfaces for the API data structures
 export interface Media {
   url: string;
   alt: string;
@@ -67,7 +66,6 @@ export interface Venue {
   bookings?: Booking[];
 }
 
-// Define types for venue data
 interface VenueMeta {
   wifi: boolean;
   parking: boolean;

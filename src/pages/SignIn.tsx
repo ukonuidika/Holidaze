@@ -40,7 +40,6 @@ const SignIn = () => {
     setMessage("");
 
     try {
-      // Store remember me preference temporarily
       sessionStorage.setItem("rememberMe", String(rememberMe));
 
       const response = await loginUser(formData);
@@ -48,16 +47,13 @@ const SignIn = () => {
 
       const { accessToken, ...userData } = response.data;
 
-      // Use the login function from AuthContext
       login(userData, accessToken);
 
-      // Clear form
       setFormData({
         email: "",
         password: "",
       });
 
-      // Navigate after a short delay
       setTimeout(() => navigate("/", { replace: true }), 1000);
     } catch (err: any) {
       setMessage(`❌ ${err.message}`);
@@ -68,13 +64,9 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
-      {/* Modern Navbar */}
       <Header text="Sign Up" link="/sign-up" />
-
-      {/* Main Content */}
       <div className="flex-grow flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
-          {/* Left Panel - Form */}
           <div className="p-8 md:p-12 md:w-3/5 order-2 md:order-1">
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -84,7 +76,6 @@ const SignIn = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email Field */}
               <div>
                 <label
                   htmlFor="email"
@@ -123,7 +114,6 @@ const SignIn = () => {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <label
@@ -207,7 +197,6 @@ const SignIn = () => {
                 </div>
               </div>
 
-              {/* Remember me */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -227,7 +216,6 @@ const SignIn = () => {
                 </div>
               </div>
 
-              {/* Error Message */}
               {message && (
                 <div
                   className={`text-sm rounded-lg p-3 ${
@@ -240,7 +228,6 @@ const SignIn = () => {
                 </div>
               )}
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -275,7 +262,6 @@ const SignIn = () => {
                 )}
               </button>
 
-              {/* Sign Up Link for mobile */}
               <div className="text-center mt-6 md:hidden">
                 <p className="text-gray-600">
                   Don't have an account yet?{" "}
@@ -287,7 +273,6 @@ const SignIn = () => {
             </form>
           </div>
 
-          {/* Right Panel - Info & Branding */}
           <div className="bg-emerald-600 text-white p-8 md:p-12 md:w-2/5 order-1 md:order-2">
             <div className="h-full flex flex-col justify-between">
               <div>
@@ -364,8 +349,7 @@ const SignIn = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
+      
       <footer className="bg-white py-6 px-6 md:px-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm mb-4 md:mb-0">

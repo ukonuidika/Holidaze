@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import type { Venue } from "../types";
 
-// Pagination Controls Component
 interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;
@@ -127,7 +126,6 @@ export const PaginationControls = ({
   );
 };
 
-// Venue Card Component
 interface VenueCardProps {
   venue: Venue;
   onVenueClick: (venue: Venue) => void;

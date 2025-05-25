@@ -1,4 +1,3 @@
-// contexts/AuthContext.tsx
 import React, {
   createContext,
   useContext,
@@ -42,14 +41,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing authentication on app load
     const checkAuthState = () => {
       try {
-        // Check localStorage first (remember me)
         let token = localStorage.getItem("accessToken");
         let userData = localStorage.getItem("userData");
 
-        // If not in localStorage, check sessionStorage
         if (!token) {
           token = sessionStorage.getItem("accessToken");
           userData = sessionStorage.getItem("userData");
@@ -62,7 +58,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       } catch (error) {
         console.error("Error parsing stored user data:", error);
-        // Clear invalid data
         localStorage.removeItem("accessToken");
         localStorage.removeItem("userData");
         sessionStorage.removeItem("accessToken");
@@ -79,11 +74,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(userData);
     setAccessToken(token);
 
-    // Store user data along with token
     const userDataToStore = JSON.stringify(userData);
 
-    // Check if we should use localStorage (remember me functionality)
-    // This would be passed from the login component
     const rememberMe = sessionStorage.getItem("rememberMe") === "true";
 
     if (rememberMe) {
@@ -94,15 +86,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       sessionStorage.setItem("userData", userDataToStore);
     }
 
-    // Clean up the rememberMe flag
     sessionStorage.removeItem("rememberMe");
   };
 
   const logout = () => {
     setUser(null);
     setAccessToken(null);
-
-    // Clear all stored data
+    
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userData");
     localStorage.removeItem("venueManager");

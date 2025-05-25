@@ -61,13 +61,9 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
-      {/* Modern Navbar */}
       <Header text="Sign In" link="/sign-in" />
-
-      {/* Main Content */}
       <div className="flex-grow flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row">
-          {/* Left Panel - Info & Branding */}
           <div className="bg-emerald-600 text-white p-8 md:p-12 md:w-2/5">
             <div className="h-full flex flex-col justify-between">
               <div>
@@ -143,7 +139,6 @@ const SignUp = () => {
             </div>
           </div>
 
-          {/* Right Panel - Form */}
           <div className="p-8 md:p-12 md:w-3/5">
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -155,7 +150,7 @@ const SignUp = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email Field */}
+
               <div>
                 <label
                   htmlFor="email"
@@ -194,7 +189,6 @@ const SignUp = () => {
                 </div>
               </div>
 
-              {/* Username Field */}
               <div>
                 <label
                   htmlFor="name"
@@ -232,7 +226,6 @@ const SignUp = () => {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div>
                 <label
                   htmlFor="password"
@@ -314,7 +307,6 @@ const SignUp = () => {
                 </div>
               </div>
 
-              {/* Venue Manager Option */}
               <div>
                 <label
                   htmlFor="venueManager"
@@ -334,7 +326,6 @@ const SignUp = () => {
                 </select>
               </div>
 
-              {/* Terms & Conditions */}
               <div className="flex items-start">
                 <div className="flex items-center h-5">
                   <input
@@ -359,7 +350,6 @@ const SignUp = () => {
                 </div>
               </div>
 
-              {/* Error Message */}
               {message && (
                 <div
                   className={`text-sm rounded-lg p-3 ${
@@ -372,7 +362,6 @@ const SignUp = () => {
                 </div>
               )}
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -407,7 +396,6 @@ const SignUp = () => {
                 )}
               </button>
 
-              {/* Sign In Link for mobile */}
               <div className="text-center mt-6 md:hidden">
                 <p className="text-gray-600">
                   Already have an account?{" "}
@@ -420,8 +408,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
+      
       <Footer />
     </div>
   );

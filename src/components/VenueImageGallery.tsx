@@ -1,4 +1,3 @@
-// components/VenueImageGallery.tsx
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import type { Venue } from "../types";
@@ -62,7 +61,7 @@ export const VenueImageGallery = ({
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {images.map((image, index) => (
               <button
-                key={image.url || `image-${image.alt || index}`} // Fixed: Using unique identifier instead of index
+                key={image.url || `image-${image.alt || index}`}
                 onClick={() => setCurrentImageIndex(index)}
                 className={`w-3 h-3 rounded-full ${
                   index === currentImageIndex

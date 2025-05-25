@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import type { Venue } from "../types";
 import { getAllVenues } from "../services/api";
 
-// Import separated components and hooks
 import { useVenueSearch } from "../hooks/useVenueSearch";
 import { SearchBar, ResultsHeader, EmptyState } from "../components/Search";
 import { VenueCard, PaginationControls } from "../components/VenuesComponents";
@@ -11,7 +10,6 @@ import { LoadingState, ErrorState } from "../components/LoadingState";
 import { Header } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 
-// Main HomePage Component
 export default function HomePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +32,6 @@ export default function HomePage() {
     clearSearch,
   } = useVenueSearch();
 
-  // Load initial venues
   useEffect(() => {
     const fetchVenues = async () => {
       try {
@@ -66,11 +63,10 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
+
       <Header text="Sign In" link="/sign-in" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
         <div className="relative bg-gradient-to-r from-emerald-700 to-teal-500 rounded-xl overflow-hidden mb-8">
           <div className="max-w-7xl mx-auto">
             <div className="relative z-10 py-8 sm:py-16 px-4 sm:px-6 lg:px-8">
@@ -83,8 +79,7 @@ export default function HomePage() {
                   loved ones.
                 </p>
               </div>
-
-              {/* Enhanced Search and Filter Bar */}
+              
               <div className="mt-8">
                 <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-4">
                   <div className="flex flex-col md:flex-row gap-4">
@@ -120,7 +115,6 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-pattern opacity-10"></div>
         </div>
 
-        {/* Venues Grid */}
         <div className="mt-8">
           <ResultsHeader
             resultsCount={resultsCount}
@@ -159,8 +153,7 @@ export default function HomePage() {
           )}
         </div>
       </main>
-
-      {/* Footer */}
+      
       <Footer />
     </div>
   );

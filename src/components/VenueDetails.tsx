@@ -1,4 +1,3 @@
-// components/VenueDetails.tsx
 import React from "react";
 import { Star, MapPin } from "lucide-react";
 import type { Venue } from "../types";

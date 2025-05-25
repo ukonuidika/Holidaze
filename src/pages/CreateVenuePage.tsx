@@ -1,4 +1,3 @@
-// src/pages/CreateVenuePage.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createVenue } from "../services/api";
@@ -62,7 +61,6 @@ const CreateVenuePage: React.FC = () => {
     },
   });
 
-  // Separate handler for meta fields
   const handleMetaChange = (
     field: keyof typeof formData.meta,
     value: boolean
@@ -76,7 +74,6 @@ const CreateVenuePage: React.FC = () => {
     }));
   };
 
-  // Separate handler for location fields
   const handleLocationChange = (
     field: keyof typeof formData.location,
     value: string | number
@@ -90,7 +87,6 @@ const CreateVenuePage: React.FC = () => {
     }));
   };
 
-  // Separate handler for media fields
   const handleMediaChange = (
     index: number,
     field: keyof MediaItem,
@@ -104,7 +100,6 @@ const CreateVenuePage: React.FC = () => {
     setFormData((prev) => ({ ...prev, media: updatedMedia }));
   };
 
-  // Separate handler for basic fields
   const handleBasicFieldChange = (name: string, value: string | number) => {
     setFormData((prev) => ({
       ...prev,
@@ -112,7 +107,6 @@ const CreateVenuePage: React.FC = () => {
     }));
   };
 
-  // Main change handler with reduced complexity
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -147,7 +141,6 @@ const CreateVenuePage: React.FC = () => {
       return;
     }
 
-    // Handle basic fields
     const basicValue = type === "number" ? parseFloat(value) : value;
     handleBasicFieldChange(name, basicValue);
   };
@@ -166,7 +159,6 @@ const CreateVenuePage: React.FC = () => {
     }));
   };
 
-  // Updated handleSubmit function with better success handling
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -177,12 +169,10 @@ const CreateVenuePage: React.FC = () => {
         throw new Error("You must be logged in to create a venue");
       }
 
-      // Filter out empty media objects
       const cleanedMedia = formData.media.filter(
         (media) => media.url.trim() !== ""
       );
-
-      // Prepare the data to send
+      
       const venueData = {
         name: formData.name,
         description: formData.description,
@@ -195,9 +185,8 @@ const CreateVenuePage: React.FC = () => {
 
       const response = await createVenue(venueData);
 
-      // Show success message and redirect
       alert(`Venue "${response.data.name}" created successfully!`);
-      navigate(`/venue/${response.data.id}`); // Assuming the response includes the venue ID
+      navigate(`/venue/${response.data.id}`);
     } catch (err) {
       console.error("Venue creation error:", err);
       setError(
@@ -218,7 +207,6 @@ const CreateVenuePage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <BackButton onClick={handleBackClick} />
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
             Create Your Venue
@@ -239,7 +227,7 @@ const CreateVenuePage: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Basic Information */}
+
           <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mr-4">
@@ -291,7 +279,6 @@ const CreateVenuePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Pricing & Capacity */}
           <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4">
@@ -351,7 +338,6 @@ const CreateVenuePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Media */}
           <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-4">
@@ -413,7 +399,6 @@ const CreateVenuePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Amenities */}
           <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mr-4">
@@ -553,7 +538,6 @@ const CreateVenuePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Location */}
           <div className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20">
             <div className="flex items-center mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
@@ -600,8 +584,7 @@ const CreateVenuePage: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Submit Button */}
+          
           <div className="flex justify-center pt-4">
             <button
               type="submit"
